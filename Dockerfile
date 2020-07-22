@@ -1,5 +1,5 @@
- FROM ubuntu
- MAINTAINER "sonali.devops@gmail.com"
+FROM ubuntu
+MAINTAINER "sonali.devops@gmail.com"
 RUN apt-get update
 RUN apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME /usr
