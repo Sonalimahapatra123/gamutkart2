@@ -28,11 +28,8 @@ jobs: # a collection of steps
       - image: docker
     steps:
       - checkout
-      - run:
-          name: Sending build start email notification
-          command: |
-               docker --version
-               docker build -t sonali .
+      - run: |
+          docker build -t CircleCI-Public/circleci-demo-docker .
 workflows:
   build-and-deploy:
     jobs:
