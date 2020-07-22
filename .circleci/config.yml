@@ -25,28 +25,28 @@ jobs: # a collection of steps
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
       
       - run: mvn package # run the actual testsi
-  deploy:
+  deploy:  
     docker:
-      - image: docker
+      - image: circleci/python:3.6.1
+    environment:
+      AWS_DEFAULT_OUTPUT: json
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 18.06.0-ce
+      - setup_remote_docker
+      - attach_workspace:
+          at: workspace
       - aws-cli/install
       - aws-cli/configure:
           aws-access-key-id: "$AWS_ACCESS_KEY_ID"
           aws-region: "$AWS_DEFAULT_REGION"
-      - run: |
+      - run:
+          name: build and push image
+          command: |
           docker --version
           docker build -t myimage .
           docker tag myimage:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/myimage:latest
           aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email
           docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
-      - run:
-          name: Push image
-          command: |
-            eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-            docker push $FULL_IMAGE_NAME
 workflows:
   build-and-deploy:
     jobs:
