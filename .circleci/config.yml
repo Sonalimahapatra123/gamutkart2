@@ -34,3 +34,13 @@ jobs: # a collection of steps
           name: Sending build start email notification
           command: |
                docker --version
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
