@@ -29,7 +29,8 @@ jobs: # a collection of steps
     steps:
       - checkout
       - run: |
-          docker build -t circleci-demo-docker .
+          docker --version
+          docker build -t irfan .
 workflows:
   build-and-deploy:
     jobs:
