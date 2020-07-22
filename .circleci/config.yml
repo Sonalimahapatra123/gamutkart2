@@ -35,10 +35,8 @@ jobs: # a collection of steps
           command: |
                docker --version
 workflows:
-  version: 2
-  workflow:
+  build-and-deploy:
     jobs:
-      - build:
-      - deploy:
-          requires:
-            - build
+      - build
+      - deploy
+
