@@ -30,10 +30,21 @@ jobs: # a collection of steps
       - checkout
       - setup_remote_docker:
           version: 18.06.0-ce
+      - aws-cli/install
+      - aws-cli/configure:
+          aws-access-key-id: "$AWS_ACCESS_KEY_ID"
+          aws-region: "$AWS_DEFAULT_REGION"
       - run: |
-          docker images
           docker --version
-          docker build -t irfan .
+          docker build -t myimage .
+          docker tag myimage:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/myimage:latest
+          aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email
+          docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
+      - run:
+          name: Push image
+          command: |
+            eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+            docker push $FULL_IMAGE_NAME
 workflows:
   build-and-deploy:
     jobs:
