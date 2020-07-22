@@ -45,7 +45,7 @@ jobs: # a collection of steps
              docker --version
              docker build -t myimage .
              docker tag myimage:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/myimage:latest
-             aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email
+             aws ecr get-login --region $AWS_REGION --no-include-email
              docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
 workflows:
   build-and-deploy:
