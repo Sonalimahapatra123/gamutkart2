@@ -28,8 +28,6 @@ jobs: # a collection of steps
       - image: docker
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Sending build start email notification
           command: |
