@@ -48,7 +48,31 @@ jobs: # a collection of steps
              aws ecr get-login --region $AWS_REGION --no-include-email
              docker build -t terraform .
              docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
-             docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+             #docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+  push-image:
+    description: Push a container image to the Amazon ECR registry
+    parameters:
+      account-url:
+        default: 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+        #description: |
+          #Env var storing Amazon ECR account URL that maps to an AWS account, e.g. {awsAccountNum}.dkr.ecr.us-west-2.amazonaws.com defaults to AWS_ECR_ACCOUNT_URL
+        #type: env_var_name
+      repo:
+        description: Name of an Amazon ECR repository
+        type: string
+      tag:
+        default: latest
+        description: A comma-separated string containing docker image tags (default
+          = latest)
+        type: string
+    steps:
+    - run:
+        command: |
+          IFS="," read -ra DOCKER_TAGS \<<< "<< parameters.tag >>"
+          for tag in "${DOCKER_TAGS[@]}"; do
+            docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+          done
+        name: Push image to Amazon ECR           
 workflows:
   build-and-deploy:
     jobs:
