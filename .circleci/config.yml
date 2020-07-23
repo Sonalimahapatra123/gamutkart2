@@ -1,6 +1,7 @@
 version: 2.1 # use CircleCI 2.0
 orbs:
   aws-cli: circleci/aws-cli@0.1.4
+  aws-ecr: circleci/aws-ecr@x.y.z
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     
@@ -40,17 +41,23 @@ jobs: # a collection of steps
           aws-access-key-id: "$AWS_ACCESS_KEY_ID"
           aws-secret-access-key: "$AWS_SECRET_ACCESS_KEY"
           aws-region: "$AWS_REGION"
-      - run:
-          name: build and push image
-          command: |
-             docker --version
-             aws ecr get-login --region $AWS_REGION --no-include-email
-             docker build -t terraform .
-             docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
-             docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+      #- run:
+       #   name: build and push image
+        #  command: |
+         #    docker --version
+          #   aws ecr get-login --region $AWS_REGION --no-include-email
+           #  docker build -t terraform .
+            # docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+             #docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+#workflows:
+ # build-and-deploy:
+  #  jobs:
+   #   - build
+    #  - deploy
+
 workflows:
   build-and-deploy:
     jobs:
-      - build
-      - deploy
-
+      - aws-ecr/build-and-push-image:
+          repo: "202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest"
+          tag: "latest"
