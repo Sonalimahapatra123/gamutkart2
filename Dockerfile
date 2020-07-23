@@ -1,6 +1,6 @@
 FROM ubuntu
 MAINTAINER "sonali.devops@gmail.com"
-RUN apt-get update
+RUN apt-get update -y
 RUN apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME /usr
 ADD apache-tomcat-8.5.38.tar.gz /root
