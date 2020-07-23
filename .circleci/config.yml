@@ -72,8 +72,8 @@ jobs: # a collection of steps
           for tag in "${DOCKER_TAGS[@]}"; do
             docker push $<<parameters.account-url>>/<<parameters.repo>>:${tag}
           done
-        name: Push image to Amazon ECR   
-      workflows:
+        name: Push image to Amazon ECR       
+workflows:
         build_and_push_image:
           jobs:
           - aws-ecr/build-and-push-image:
@@ -87,8 +87,8 @@ jobs: # a collection of steps
               path: pathToMyDockerfile
               profile-name: myProfileName
               region: AWS_REGION_ENV_VAR_NAME
-              repo: myECRRepository
-              tag: latest,myECRRepoTag
+              repo: terraform
+              tag: latest,terraform
 executors:
   default:
     description: |
@@ -103,13 +103,8 @@ executors:
       use-docker-layer-caching:
         default: false
         type: boolean
-#workflows:
- # build-and-deploy:
-  #  jobs:
-   #   - build
-    #  - deploy
-  #build-and-deploy:
-   # jobs:
-    #  - aws-ecr/build-and-push-image:
-     #     repo: "202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest"
-      #    tag: "latest"
+workflows:
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy
