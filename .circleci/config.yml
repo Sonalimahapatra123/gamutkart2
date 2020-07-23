@@ -73,7 +73,7 @@ jobs: # a collection of steps
             docker push $<<parameters.account-url>>/<<parameters.repo>>:${tag}
           done
         name: Push image to Amazon ECR   
-workflows:
+      workflows:
         build_and_push_image:
           jobs:
           - aws-ecr/build-and-push-image:
@@ -87,8 +87,8 @@ workflows:
               path: pathToMyDockerfile
               profile-name: myProfileName
               region: AWS_REGION_ENV_VAR_NAME
-              repo: terraform
-              tag: latest,terraform
+              repo: myECRRepository
+              tag: latest,myECRRepoTag
 executors:
   default:
     description: |
