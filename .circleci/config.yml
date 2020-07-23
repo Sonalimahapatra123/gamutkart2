@@ -103,8 +103,8 @@ executors:
       use-docker-layer-caching:
         default: false
         type: boolean
-workflows:
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy
+#workflows:
+ # build-and-deploy:
+  #  jobs:
+   #   - build
+    #  - deploy
