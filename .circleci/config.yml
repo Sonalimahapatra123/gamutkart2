@@ -41,21 +41,21 @@ jobs: # a collection of steps
           aws-access-key-id: "$AWS_ACCESS_KEY_ID"
           aws-secret-access-key: "$AWS_SECRET_ACCESS_KEY"
           aws-region: "$AWS_REGION"
-      #- run:
-       #   name: build and push image
-        #  command: |
-         #    docker --version
-          #   aws ecr get-login --region $AWS_REGION --no-include-email
-           #  docker build -t terraform .
-            # docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
-             #docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
-#workflows:
- # build-and-deploy:
-  #  jobs:
-   #   - build
-    #  - deploy
+      - run:
+          name: build and push image
+          command: |
+             docker --version
+             aws ecr get-login --region $AWS_REGION --no-include-email
+             docker build -t terraform .
+             docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+             docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+workflows:
   build-and-deploy:
     jobs:
-      - aws-ecr/build-and-push-image:
-          repo: "202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest"
-          tag: "latest"
+      - build
+      - deploy
+  #build-and-deploy:
+   # jobs:
+    #  - aws-ecr/build-and-push-image:
+     #     repo: "202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest"
+      #    tag: "latest"
