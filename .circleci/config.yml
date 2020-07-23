@@ -103,11 +103,11 @@ executors:
       use-docker-layer-caching:
         default: false
         type: boolean
-workflows:
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy
+#workflows:
+ # build-and-deploy:
+  #  jobs:
+   #   - build
+    #  - deploy
   #build-and-deploy:
    # jobs:
     #  - aws-ecr/build-and-push-image:
