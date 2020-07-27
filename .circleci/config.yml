@@ -35,7 +35,7 @@ jobs: # a collection of steps
           docker --version
           docker build -t myapp .
 workflows:
-  build:
+  build-and-deploy:
     jobs:
       - build
       - deploy
