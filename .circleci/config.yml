@@ -33,9 +33,9 @@ jobs: # a collection of steps
       - run: |
           docker images
           docker --version
-          docker build -t irfan .
+          docker build -t myapp .
 workflows:
-  build-and-deploy:
+  build:
     jobs:
       - build
       - deploy
