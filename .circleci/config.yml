@@ -1,4 +1,7 @@
 version: 2.1 # use CircleCI 2.0
+orbs:
+  aws-cli: circleci/aws-cli@0.1.4
+  aws-ecr: circleci/aws-ecr@0.0.4
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     
@@ -7,7 +10,7 @@ jobs: # a collection of steps
     docker: # run the steps with Docker
       - image: circleci/openjdk:8-jdk-stretch # ...with this image as the primary container; this is where all `steps` will run
 
-    steps: 
+    steps: # a collection of executable commands
 
       - checkout # check out source code to working directory
 
@@ -23,19 +26,31 @@ jobs: # a collection of steps
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
       
       - run: mvn package # run the actual testsi
-  deploy:
+  deploy:  
     docker:
-      - image: docker
+      - image: circleci/python:3.6.1
+    environment:
+      AWS_DEFAULT_OUTPUT: json
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 18.06.0-ce
-      - run: |
-          docker images
-          docker --version
-          docker build -t irfan .
+      - setup_remote_docker
+      - attach_workspace:
+          at: workspace
+      - aws-cli/install
+      - aws-cli/configure:
+          aws-access-key-id: "$AWS_ACCESS_KEY_ID"
+          aws-secret-access-key: "$AWS_SECRET_ACCESS_KEY"
+          aws-region: "$AWS_REGION"
+      - run:
+          name: build and push image
+          command: |
+             docker --version
+             aws ecr get-login --region $AWS_REGION --no-include-email
+             docker build -t terraform .
+             docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+             docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
 workflows:
-  build:
+  build-and-deploy:
     jobs:
       - build
       - deploy
