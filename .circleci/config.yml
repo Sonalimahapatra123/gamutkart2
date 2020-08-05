@@ -49,7 +49,7 @@ jobs: # a collection of steps
              docker build -t terraform .
              docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
              aws s3 ls
-             docker push 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
+             docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
 workflows:
   build-and-deploy:
     jobs:
