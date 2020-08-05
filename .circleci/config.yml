@@ -31,7 +31,7 @@ jobs: # a collection of steps
       - image: circleci/python:3.6.1
     environment:
       AWS_DEFAULT_OUTPUT: json
-      KOPS_STATE_STORE: s3://kops.foo.bar
+      KOPS_STATE_STORE: s3://kopspoc.tk-state
     steps:
       - checkout
       - setup_remote_docker
@@ -53,7 +53,7 @@ jobs: # a collection of steps
              docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
              wget -q https://storage.googleapis.com/kubernetes-release/release/v1.6.1/bin/linux/amd64/kubectl && sudo chmod +x kubectl && sudo mv kubectl /usr/bin
              wget -q https://github.com/kubernetes/kops/releases/download/1.6.1/kops-linux-amd64 && sudo chmod +x kops-linux-amd64 && sudo mv kops-linux-amd64 /usr/bin/kops
-             kops export kubecfg k8s.foo.bar
+             kops export kubecfg s3://kopspoc.tk-state
 workflows:
   build-and-deploy:
     jobs:
