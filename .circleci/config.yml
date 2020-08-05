@@ -31,6 +31,7 @@ jobs: # a collection of steps
       - image: circleci/python:3.6.1
     environment:
       AWS_DEFAULT_OUTPUT: json
+      KOPS_STATE_STORE: s3://kops.foo.bar
     steps:
       - checkout
       - setup_remote_docker
@@ -45,11 +46,12 @@ jobs: # a collection of steps
           name: build and push image
           command: |
              docker --version
-             $(aws ecr get-login --region us-east-1 --no-include-email)
+             eval $(aws ecr get-login --region us-east-1 --no-include-email)
              docker build -t terraform .
              docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
              aws s3 ls
              docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
+             kops export kubecfg k8s.foo.bar
 workflows:
   build-and-deploy:
     jobs:
