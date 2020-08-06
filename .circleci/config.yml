@@ -33,7 +33,6 @@ jobs: # a collection of steps
     environment:
       AWS_DEFAULT_OUTPUT: json
       KOPS_STATE_STORE: s3://kopspoc.tk-state
-      REPLICAS: 3
     steps:
       - checkout
       - setup_remote_docker
@@ -55,7 +54,6 @@ jobs: # a collection of steps
              docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
              docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
              kubectl version
-             kops export kubecfg k8s.kopspoc.tk
 workflows:
   build-and-deploy:
     jobs:
