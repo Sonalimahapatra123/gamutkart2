@@ -52,9 +52,7 @@ jobs: # a collection of steps
              docker build -t terraform .
              docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
              docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
-             wget -q https://github.com/kubernetes/kops/releases/download/1.6.1/kops-linux-amd64 && sudo chmod +x kops-linux-amd64 && sudo mv kops-linux-amd64 /usr/bin/kops
              kubectl version
-             kops version
              kops export kubecfg kopspoc.tk
 workflows:
   build-and-deploy:
