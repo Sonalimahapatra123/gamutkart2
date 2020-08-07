@@ -54,6 +54,8 @@ jobs: # a collection of steps
              docker tag terraform:latest 202771655335.dkr.ecr.us-east-1.amazonaws.com/terraform:latest
              docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
              kops export kubecfg kopspoc.tk
+             HTTP_HOST=staging.foo.bar VERSION=$CIRCLE_SHA1 NAMESPACE=default ENV=test envsubst < deployment/deployment.template.yml > deployment/deployment.yml
+            kubectl -n default apply -f deployment/deployment.yml
 workflows:
   build-and-deploy:
     jobs:
