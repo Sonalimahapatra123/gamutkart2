@@ -55,6 +55,7 @@ jobs: # a collection of steps
              docker push 202771655335.dkr.ecr.$AWS_REGION.amazonaws.com/terraform:latest
              kops export kubecfg kopspoc.tk
              HTTP_HOST=kopspoc.tk VERSION=$CIRCLE_SHA1 NAMESPACE=default cd /home/ubuntu/kubernetes-aws-vpc-kops-terraform/webapp
+             echo "pwd"
              sudo "cd /home/ubuntu/kubernetes-aws-vpc-kops-terraform/webapp && kubectl -n default apply -f deployment.yml"
 workflows:
   build-and-deploy:
