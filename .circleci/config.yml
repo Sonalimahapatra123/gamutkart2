@@ -57,7 +57,7 @@ jobs: # a collection of steps
              echo `pwd`
              hostname -i
              echo `ls`
-             #kubectl expose deployment nginx --type=LoadBalancer --port 80 --target-port 80
+             kubectl expose deployment nginx --type=LoadBalancer --port 80 --target-port 80
              #HTTP_HOST=kopspoc.tk VERSION=$CIRCLE_SHA1 NAMESPACE=default < Deployment/deployment.yml > Deployment/deployment.yml
              #kubectl -n default apply -f Deployment/deployment.yml
 workflows:
